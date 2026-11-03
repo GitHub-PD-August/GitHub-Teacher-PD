@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Study Buddy</title>
+  <meta name="description" content="A lightweight AI tutor: chat, study from your own notes, take quizzes and track progress." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>" />
+  <link rel="stylesheet" href="/vendor/katex.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <span class="logo" aria-hidden="true">🎓</span>
+        <div>
+          <h1>Study Buddy</h1>
+          <p class="muted small">Your AI tutor</p>
+        </div>
+      </div>
+
+      <section class="panel">
+        <h2>Study material</h2>
+        <p class="muted small">Upload notes, a chapter or a worksheet (PDF, TXT, MD). Ticked files are used in chat and quizzes.</p>
+        <label class="dropzone" id="dropzone">
+          <input type="file" id="fileInput" accept=".pdf,.txt,.md,.markdown,.csv,.json,.html,.py,.js,.java,.c,.cpp,application/pdf,text/*" multiple hidden />
+          <span>📄 Drop files or <u>browse</u></span>
+        </label>
+        <ul class="materials" id="materialList"></ul>
+      </section>
+
+      <section class="panel">
+        <h2>Learner settings</h2>
+        <label class="field">
+          <span>Level</span>
+          <select id="levelSelect">
+            <option value="beginner">Beginner</option>
+            <option value="intermediate" selected>Intermediate</option>
+            <option value="advanced">Advanced</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>Tutor style</span>
+          <select id="modeSelect">
+            <option value="explain" selected>Explain clearly</option>
+            <option value="socratic">Socratic (hints, not answers)</option>
+            <option value="solve">Solve step by step</option>
+          </select>
+        </label>
+      </section>
+
+      <p class="muted small footer-note" id="serverStatus">Connecting…</p>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <button class="icon-btn menu-btn" id="menuBtn" aria-label="Show sidebar">☰</button>
+        <nav class="tabs" role="tablist">
+          <button class="tab active" role="tab" data-tab="chat" aria-selected="true">💬 Chat</button>
+          <button class="tab" role="tab" data-tab="quiz" aria-selected="false">📝 Quiz</button>
+          <button class="tab" role="tab" data-tab="progress" aria-selected="false">📈 Progress</button>
+        </nav>
+      </header>
+
+      <!-- CHAT -->
+      <section class="view active" id="view-chat">
+        <div class="chat-log" id="chatLog">
+          <div class="empty" id="chatEmpty">
+            <h2>What would you like to learn today?</h2>
+            <p class="muted">Ask anything, or upload your notes and ask about them.</p>
+            <div class="starters">
+              <button class="chip" data-prompt="Explain how Git branches and pull requests work, with an example.">Git branches &amp; PRs</button>
+              <button class="chip" data-prompt="Teach me the Pythagorean theorem and give me a practice problem.">Pythagorean theorem</button>
+              <button class="chip" data-prompt="Summarise the key ideas in my uploaded material.">Summarise my notes</button>
+              <button class="chip" data-prompt="Make me a 3-day study plan for photosynthesis.">Make a study plan</button>
+            </div>
+          </div>
+        </div>
+        <form class="composer" id="chatForm">
+          <textarea id="chatInput" rows="1" placeholder="Ask your tutor…" title="Enter to send, Shift+Enter for a new line" required></textarea>
+          <div class="composer-actions">
+            <button type="button" class="btn ghost" id="clearChatBtn" title="Start a new conversation">New chat</button>
+            <button type="button" class="btn ghost" id="quizFromChatBtn" title="Quiz me on this conversation's topic">Quiz me</button>
+            <button type="submit" class="btn primary" id="sendBtn">Send</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- QUIZ -->
+      <section class="view" id="view-quiz">
+        <div class="quiz-wrap">
+          <form class="card quiz-setup" id="quizForm">
+            <h2>Generate a quiz</h2>
+            <label class="field">
+              <span>Topic</span>
+              <input id="quizTopic" type="text" placeholder="e.g. Git basics, fractions, the water cycle (optional if material is ticked)" />
+            </label>
+            <div class="row">
+              <label class="field">
+                <span>Questions</span>
+                <select id="quizCount">
+                  <option>3</option><option selected>5</option><option>8</option><option>10</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>Difficulty</span>
+                <select id="quizDifficulty">
+                  <option value="easy">Easy</option>
+                  <option value="medium" selected>Medium</option>
+                  <option value="hard">Hard</option>
+                </select>
+              </label>
+            </div>
+            <p class="muted small" id="quizMaterialNote"></p>
+            <button class="btn primary" id="quizBtn" type="submit">Create quiz</button>
+          </form>
+          <div id="quizArea"></div>
+        </div>
+      </section>
+
+      <!-- PROGRESS -->
+      <section class="view" id="view-progress">
+        <div class="progress-wrap" id="progressArea"></div>
+      </section>
+    </main>
+  </div>
+  <div class="scrim" id="scrim"></div>
+
+  <script src="/vendor/marked.js"></script>
+  <script src="/vendor/purify.js"></script>
+  <script src="/vendor/katex.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
