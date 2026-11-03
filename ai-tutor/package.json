@@ -1,0 +1,23 @@
+{
+  "name": "study-buddy-ai-tutor",
+  "version": "1.0.0",
+  "description": "A lightweight AI tutor web app: chat with a tutor, upload study material, take generated quizzes, and track progress.",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^1.4.0",
+    "dompurify": "^3.4.17",
+    "express": "^5.3.0",
+    "katex": "^0.19.1",
+    "marked": "^18.1.3",
+    "multer": "^2.5.0"
+  }
+}
